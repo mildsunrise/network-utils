@@ -114,6 +114,12 @@ IW=$(which iw)
 
 # Main function. Resets everything
 function reset_network {
+  # Kill processes
+  if [ -z "$__reset_ignore_processes" ]; then
+    reset_processes
+    sleep 0.5
+  fi
+
   # Medium-specific
   reset_iw
   reset_ethtool
@@ -135,7 +141,7 @@ function reset_network {
   reset_variables
 
   # Complimentary
-  if [ -z "$__reset_ignore_processes" ]; then reset_processes; fi
+  if [ -z "$__reset_unload_modules" ]; then return; fi
   reset_modules
 }
 
@@ -192,8 +198,6 @@ function reset_processes {
 
 # Reset modules
 function reset_modules {
-  if [ -z "$__reset_unload_modules" ]; then return; fi
-
   # We run it ignoring output because there are some legit reasons the
   # modules will fail to unload (another module depending on them, etc.).
   modprobe -r \
