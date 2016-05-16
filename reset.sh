@@ -486,9 +486,5 @@ function error_msg {
 
 
 if [ -z "$__reset_as_library" ]; then
-  if [ "$UID" != 0 ]; then
-    sudo -E $0 $*
-    exit
-  fi
   reset_network
 fi
