@@ -33,7 +33,7 @@ source utils.sh
 auto_sudo
 
 lan="$1"
-if check_interface "$lan"; [ $? != 0 ]; then
+if interface_exists "$lan"; [ $? != 0 ]; then
   echo "Usage: $0 <lan interface>"
   exit 1
 fi
@@ -47,4 +47,4 @@ iptables -t nat -A POSTROUTING -s 192.168.4.0/24 -j MASQUERADE
 iptables -t filter -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 iptables -t filter -A FORWARD ! -s 192.168.4.0/24 -d 192.168.4.0/24 -j DROP
 # give DHCP / DNS / TFTP service
-dnsmasq -C soho.dnsmasq.conf --interface="$lan" --tftp-root="$(pwd)/soho.tftp"
+dnsmasq -C soho.dnsmasq.conf --tftp-root="$(pwd)/soho.tftp"
