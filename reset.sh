@@ -74,6 +74,11 @@
 #   - $__reset_as_library: if not empty, the script will do nothing.
 #     Intended for using this script as a function library.
 #
+#   - $__reset_auto_sudo: if not empty, the script will run itself
+#     through sudo if not run as root. All other scripts do this
+#     by default, however it's been disabled here because of the
+#     script's destructive nature.
+#
 # ### Use as a library
 #
 # To use this script as a function library, source it with
@@ -458,5 +463,12 @@ function reset_variables {
 
 
 if [ -z "$__reset_as_library" ]; then
+  if [ -z "$__reset_auto_sudo" ]; then
+    if [ "$UID" != 0 ]; then
+      error_msg "" "script needs to be run as root"
+      exit 1
+    fi
+  fi
+  auto_sudo
   reset_network
 fi

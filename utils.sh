@@ -35,6 +35,6 @@ function error_msg {
 
 function auto_sudo {
   if [ "$UID" != 0 ]; then
-    sudo $0 $*; exit
+    sudo -E $0 $*; exit
   fi
 }
