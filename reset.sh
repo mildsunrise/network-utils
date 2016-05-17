@@ -103,6 +103,9 @@
 # When iterating over a set of interfaces while removing them, make
 # sure to check the interface exists before operating on it. It may
 # already have been removed as it was the child of another one.
+#
+cd $(dirname "$(readlink -e "$0")")
+source utils.sh
 
 IP=$(which ip)
 TC=$(which tc)
@@ -450,38 +453,6 @@ function reset_tc {
 function reset_variables {
   # TODO: reset common network variables
   true
-}
-
-
-# Some utilities
-function run_c {
-  LC_ALL=C LANG=C LANGUAGES=C $*
-}
-function run_i {
-  $* > /dev/null 2> /dev/null
-}
-function interface_exists {
-  run_i ip link show dev "$1"
-}
-function list_interfaces {
-  $IP link | grep '^[0-9]' | cut -d' ' -f2 | cut -d':' -f1 | cut -d'@' -f1
-}
-__reset_verbosity="${VERBOSE:-1}"
-function debug_msg {
-  if [ "$__reset_verbosity" -lt 3 ]; then return 0; fi
-  echo "DEBUG [$1]: $2"
-}
-function info_msg {
-  if [ "$__reset_verbosity" -lt 2 ]; then return 0; fi
-  echo "INFO [$1]: $2"
-}
-function warning_msg {
-  if [ "$__reset_verbosity" -lt 1 ]; then return 0; fi
-  echo "WARNING [$1]: $2"
-}
-function error_msg {
-  if [ "$__reset_verbosity" -lt 0 ]; then return 0; fi
-  echo "ERROR [$1]: $2"
 }
 
 
