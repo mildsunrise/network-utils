@@ -175,6 +175,7 @@ function reset_processes {
   # VPN
   __kill_process openvpn
   __kill_process pptpd
+  __kill_process xl2tpd
   # PPP
   __kill_process pppd
   # PPPoE
