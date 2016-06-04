@@ -469,6 +469,6 @@ if [ -z "$__reset_as_library" ]; then
       exit 1
     fi
   fi
-  auto_sudo
+  auto_sudo $*
   reset_network
 fi

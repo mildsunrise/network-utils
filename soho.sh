@@ -30,7 +30,7 @@
 set -e
 cd $(dirname "$(readlink -e "$0")")
 source utils.sh
-auto_sudo
+auto_sudo $*
 
 lan="$1"
 if interface_exists "$lan"; [ $? != 0 ]; then
